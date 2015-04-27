@@ -1,9 +1,11 @@
 python-daemon 1.5.7
 ===================
 
+[![Build Status](https://travis-ci.org/PyYoshi/python-daemon.svg)](https://travis-ci.org/PyYoshi/python-daemon)
+
 This library implements the well-behaved daemon specification of [pep 3143](http://www.python.org/dev/peps/pep-3143/), "Standard daemon process library".
 
-A well-behaved Unix daemon process is tricky to get right, but the required steps are much the same for every daemon program. 
+A well-behaved Unix daemon process is tricky to get right, but the required steps are much the same for every daemon program.
 
 A _DaemonContext_ instance holds the behaviour and configured process environment for the program; use the instance as a context manager to enter a daemon state.
 
