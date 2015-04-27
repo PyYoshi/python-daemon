@@ -348,12 +348,12 @@ class PIDLockFile_TestCase(scaffold.TestCase):
     def test_instantiate(self):
         """ New instance of PIDLockFile should be created. """
         instance = self.test_instance
-        self.failUnlessIsInstance(instance, pidlockfile.PIDLockFile)
+        self.assertTrueIsInstance(instance, pidlockfile.PIDLockFile)
 
     def test_inherits_from_linklockfile(self):
         """ Should inherit from LinkLockFile. """
         instance = self.test_instance
-        self.failUnlessIsInstance(instance, lockfile.linklockfile.LinkLockFile)
+        self.assertTrueIsInstance(instance, lockfile.linklockfile.LinkLockFile)
 
     def test_has_specified_path(self):
         """ Should have specified path. """
@@ -402,7 +402,7 @@ class PIDLockFile_acquire_TestCase(scaffold.TestCase):
             ...
             """
         instance.acquire()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_calls_linklockfile_acquire_with_timeout(self):
         """ Should call LinkLockFile.acquire method with specified timeout. """
@@ -413,7 +413,7 @@ class PIDLockFile_acquire_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.acquire(timeout=test_timeout)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_writes_pid_to_specified_file(self):
         """ Should request writing current PID to specified file. """
@@ -425,7 +425,7 @@ class PIDLockFile_acquire_TestCase(scaffold.TestCase):
             """ % vars()
         instance.acquire()
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_lock_failed_on_write_error(self):
         """ Should raise LockFailed error if write fails. """
@@ -490,7 +490,7 @@ class PIDLockFile_release_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.release()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_calls_linklockfile_release(self):
         """ Should finally call LinkLockFile.release method. """
@@ -501,7 +501,7 @@ class PIDLockFile_release_TestCase(scaffold.TestCase):
             Called lockfile.linklockfile.LinkLockFile.release()
             """
         instance.release()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class PIDLockFile_break_lock_TestCase(scaffold.TestCase):
@@ -524,7 +524,7 @@ class PIDLockFile_break_lock_TestCase(scaffold.TestCase):
             ...
             """
         instance.break_lock()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_removes_existing_pidfile(self):
         """ Should request removal of specified PID file. """
@@ -535,7 +535,7 @@ class PIDLockFile_break_lock_TestCase(scaffold.TestCase):
             Called pidlockfile.remove_existing_pidfile(%(pidfile_path)r)
             """ % vars()
         instance.break_lock()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class read_pid_from_pidfile_TestCase(scaffold.TestCase):
@@ -558,7 +558,7 @@ class read_pid_from_pidfile_TestCase(scaffold.TestCase):
             """ % vars()
         dummy = pidlockfile.read_pid_from_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_reads_pid_from_file(self):
         """ Should read the PID from the specified file. """
@@ -575,7 +575,7 @@ class read_pid_from_pidfile_TestCase(scaffold.TestCase):
         pidfile_path = self.scenario['path']
         pid = pidlockfile.read_pid_from_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessIs(None, pid)
+        self.assertTrueIs(None, pid)
 
     def test_raises_error_when_file_read_fails(self):
         """ Should raise error when the PID file read fails. """
@@ -629,7 +629,7 @@ class remove_existing_pidfile_TestCase(scaffold.TestCase):
             """ % vars()
         pidlockfile.remove_existing_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_ignores_file_not_exist_error(self):
         """ Should ignore error if file does not exist. """
@@ -642,7 +642,7 @@ class remove_existing_pidfile_TestCase(scaffold.TestCase):
             """ % vars()
         pidlockfile.remove_existing_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_propagates_arbitrary_oserror(self):
         """ Should propagate any OSError other than ENOENT. """
@@ -679,7 +679,7 @@ class write_pid_to_pidfile_TestCase(scaffold.TestCase):
             """ % vars()
         pidlockfile.write_pid_to_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_writes_pid_to_file(self):
         """ Should write the current PID to the specified file. """
@@ -708,7 +708,7 @@ class write_pid_to_pidfile_TestCase(scaffold.TestCase):
             """ % vars()
         pidlockfile.write_pid_to_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
@@ -747,13 +747,13 @@ class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
     def test_inherits_from_pidlockfile(self):
         """ Should inherit from PIDLockFile. """
         instance = self.test_instance
-        self.failUnlessIsInstance(instance, pidlockfile.PIDLockFile)
+        self.assertTrueIsInstance(instance, pidlockfile.PIDLockFile)
 
     def test_init_has_expected_signature(self):
         """ Should have expected signature for ‘__init__’. """
         def test_func(self, path, acquire_timeout=None, *args, **kwargs): pass
         test_func.__name__ = '__init__'
-        self.failUnlessFunctionSignatureMatch(
+        self.assertTrueFunctionSignatureMatch(
             test_func,
             pidlockfile.TimeoutPIDLockFile.__init__)
 
@@ -770,7 +770,7 @@ class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
             Called pidlockfile.PIDLockFile.__init__(
                 %(expect_path)r)
             """ % vars()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_acquire_uses_specified_timeout(self):
         """ Should call the superclass ‘acquire’ with specified timeout. """
@@ -782,7 +782,7 @@ class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
             Called pidlockfile.PIDLockFile.acquire(%(expect_timeout)r)
             """ % vars()
         instance.acquire(test_timeout)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_acquire_uses_stored_timeout_by_default(self):
         """ Should call superclass ‘acquire’ with stored timeout by default. """
@@ -794,4 +794,4 @@ class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
             Called pidlockfile.PIDLockFile.acquire(%(expect_timeout)r)
             """ % vars()
         instance.acquire()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)

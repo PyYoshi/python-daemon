@@ -157,7 +157,7 @@ class TestCase(unittest.TestCase):
                 msg = u"%(first)r is %(second)r" % vars()
             raise self.failureException(msg)
 
-    def failUnlessIs(self, first, second, msg=None):
+    def assertTrueIs(self, first, second, msg=None):
         """ Fail unless the two objects are identical.
 
             Fail the test unless ``first`` and ``second`` are
@@ -169,7 +169,7 @@ class TestCase(unittest.TestCase):
                 msg = u"%(first)r is not %(second)r" % vars()
             raise self.failureException(msg)
 
-    assertIs = failUnlessIs
+    assertIs = assertTrueIs
     assertNotIs = failIfIs
 
     def failIfIn(self, first, second, msg=None):
@@ -184,7 +184,7 @@ class TestCase(unittest.TestCase):
                 msg = u"%(second)r is in %(first)r" % vars()
             raise self.failureException(msg)
 
-    def failUnlessIn(self, first, second, msg=None):
+    def assertTrueIn(self, first, second, msg=None):
         """ Fail unless the second object is in the first.
 
             Fail the test unless ``first`` contains ``second``, as
@@ -196,10 +196,10 @@ class TestCase(unittest.TestCase):
                 msg = u"%(second)r is not in %(first)r" % vars()
             raise self.failureException(msg)
 
-    assertIn = failUnlessIn
+    assertIn = assertTrueIn
     assertNotIn = failIfIn
 
-    def failUnlessOutputCheckerMatch(self, want, got, msg=None):
+    def assertTrueOutputCheckerMatch(self, want, got, msg=None):
         """ Fail unless the specified string matches the expected.
 
             Fail the test unless ``want`` matches ``got``, as
@@ -226,9 +226,9 @@ class TestCase(unittest.TestCase):
                     ]) % vars()
             raise self.failureException(msg)
 
-    assertOutputCheckerMatch = failUnlessOutputCheckerMatch
+    assertOutputCheckerMatch = assertTrueOutputCheckerMatch
 
-    def failUnlessMockCheckerMatch(self, want, tracker=None, msg=None):
+    def assertTrueMockCheckerMatch(self, want, tracker=None, msg=None):
         """ Fail unless the mock tracker matches the wanted output.
 
             Fail the test unless `want` matches the output tracked by
@@ -268,7 +268,7 @@ class TestCase(unittest.TestCase):
                     ]) % vars()
             raise self.failureException(msg)
 
-    assertMockCheckerMatch = failUnlessMockCheckerMatch
+    assertMockCheckerMatch = assertTrueMockCheckerMatch
     assertNotMockCheckerMatch = failIfMockCheckerMatch
 
     def failIfIsInstance(self, obj, classes, msg=None):
@@ -285,7 +285,7 @@ class TestCase(unittest.TestCase):
                     ) % vars()
             raise self.failureException(msg)
 
-    def failUnlessIsInstance(self, obj, classes, msg=None):
+    def assertTrueIsInstance(self, obj, classes, msg=None):
         """ Fail unless the object is an instance of the specified classes.
 
             Fail the test unless the object ``obj`` is an instance of
@@ -299,10 +299,10 @@ class TestCase(unittest.TestCase):
                     ) % vars()
             raise self.failureException(msg)
 
-    assertIsInstance = failUnlessIsInstance
+    assertIsInstance = assertTrueIsInstance
     assertNotIsInstance = failIfIsInstance
 
-    def failUnlessFunctionInTraceback(self, traceback, function, msg=None):
+    def assertTrueFunctionInTraceback(self, traceback, function, msg=None):
         """ Fail if the function is not in the traceback.
 
             Fail the test if the function ``function`` is not at any
@@ -326,9 +326,9 @@ class TestCase(unittest.TestCase):
                     ) % vars()
             raise self.failureException(msg)
 
-    assertFunctionInTraceback = failUnlessFunctionInTraceback
+    assertFunctionInTraceback = assertTrueFunctionInTraceback
 
-    def failUnlessFunctionSignatureMatch(self, first, second, msg=None):
+    def assertTrueFunctionSignatureMatch(self, first, second, msg=None):
         """ Fail if the function signatures do not match.
 
             Fail the test if the function signature does not match
@@ -367,7 +367,7 @@ class TestCase(unittest.TestCase):
                     ) % vars()
             raise self.failureException(msg)
 
-    assertFunctionSignatureMatch = failUnlessFunctionSignatureMatch
+    assertFunctionSignatureMatch = assertTrueFunctionSignatureMatch
 
 
 class Exception_TestCase(TestCase):
@@ -404,6 +404,6 @@ class Exception_TestCase(TestCase):
                     u"%(instance)r is not an instance of"
                     u" %(match_type_name)s"
                     ) % vars()
-                self.failUnless(
+                self.assertTrue(
                     isinstance(instance, match_type),
                     msg=fail_msg)

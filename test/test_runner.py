@@ -221,7 +221,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
 
     def test_instantiate(self):
         """ New instance of DaemonRunner should be created. """
-        self.failUnlessIsInstance(self.test_instance, runner.DaemonRunner)
+        self.assertTrueIsInstance(self.test_instance, runner.DaemonRunner)
 
     def test_parses_commandline_args(self):
         """ Should parse commandline arguments. """
@@ -229,11 +229,11 @@ class DaemonRunner_TestCase(scaffold.TestCase):
             Called runner.DaemonRunner.parse_args()
             ...
             """
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_has_specified_app(self):
         """ Should have specified application object. """
-        self.failUnlessIs(self.test_app, self.test_instance.app)
+        self.assertTrueIs(self.test_app, self.test_instance.app)
 
     def test_sets_pidfile_none_when_pidfile_path_is_none(self):
         """ Should set ‘pidfile’ to ‘None’ when ‘pidfile_path’ is ‘None’. """
@@ -241,7 +241,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         self.test_app.pidfile_path = pidfile_path
         expect_pidfile = None
         instance = runner.DaemonRunner(self.test_app)
-        self.failUnlessIs(expect_pidfile, instance.pidfile)
+        self.assertTrueIs(expect_pidfile, instance.pidfile)
 
     def test_error_when_pidfile_path_not_string(self):
         """ Should raise ValueError when PID file path not a string. """
@@ -273,20 +273,20 @@ class DaemonRunner_TestCase(scaffold.TestCase):
                 %(pidfile_timeout)r)
             """ % vars()
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_has_created_pidfile(self):
         """ Should have new PID lock file as `pidfile` attribute. """
         expect_pidfile = self.mock_runner_lock
         instance = self.test_instance
-        self.failUnlessIs(
+        self.assertTrueIs(
             expect_pidfile, instance.pidfile)
 
     def test_daemon_context_has_created_pidfile(self):
         """ DaemonContext component should have new PID lock file. """
         expect_pidfile = self.mock_runner_lock
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessIs(
+        self.assertTrueIs(
             expect_pidfile, daemon_context.pidfile)
 
     def test_daemon_context_has_specified_stdin_stream(self):
@@ -300,7 +300,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         """ DaemonContext component should open stdin file for read. """
         expect_mode = 'r'
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessIn(daemon_context.stdin.mode, expect_mode)
+        self.assertTrueIn(daemon_context.stdin.mode, expect_mode)
 
     def test_daemon_context_has_specified_stdout_stream(self):
         """ DaemonContext component should have specified stdout file. """
@@ -313,7 +313,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         """ DaemonContext component should open stdout file for append. """
         expect_mode = 'w+'
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessIn(daemon_context.stdout.mode, expect_mode)
+        self.assertTrueIn(daemon_context.stdout.mode, expect_mode)
 
     def test_daemon_context_has_specified_stderr_stream(self):
         """ DaemonContext component should have specified stderr file. """
@@ -326,7 +326,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         """ DaemonContext component should open stderr file for append. """
         expect_mode = 'w+'
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessIn(daemon_context.stderr.mode, expect_mode)
+        self.assertTrueIn(daemon_context.stderr.mode, expect_mode)
 
     def test_daemon_context_has_stderr_with_no_buffering(self):
         """ DaemonContext component should open stderr file unbuffered. """
@@ -367,7 +367,7 @@ class DaemonRunner_usage_exit_TestCase(scaffold.TestCase):
         self.assertRaises(
             SystemExit,
             instance._usage_exit, argv)
-        self.failUnlessOutputCheckerMatch(
+        self.assertTrueOutputCheckerMatch(
             expect_stderr_output, self.mock_stderr.getvalue())
 
 
@@ -399,7 +399,7 @@ class DaemonRunner_parse_args_TestCase(scaffold.TestCase):
             instance.parse_args(argv)
         except NotImplementedError:
             pass
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_emits_usage_message_if_unknown_action_arg(self):
         """ Should emit a usage message and exit if unknown action. """
@@ -413,7 +413,7 @@ class DaemonRunner_parse_args_TestCase(scaffold.TestCase):
             instance.parse_args(argv)
         except NotImplementedError:
             pass
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_should_parse_system_argv_by_default(self):
         """ Should parse sys.argv by default. """
@@ -493,7 +493,7 @@ class DaemonRunner_do_action_start_TestCase(scaffold.TestCase):
             message = exc.message
         except AttributeError:
             message = exc.args[0]
-        self.failUnlessIn(str(message), expect_message_content)
+        self.assertTrueIn(str(message), expect_message_content)
 
     def test_breaks_lock_if_no_such_process(self):
         """ Should request breaking lock if PID file process is not running. """
@@ -515,7 +515,7 @@ class DaemonRunner_do_action_start_TestCase(scaffold.TestCase):
             """ % vars()
         instance.do_action()
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_requests_daemon_context_open(self):
         """ Should request the daemon context to open. """
@@ -526,7 +526,7 @@ class DaemonRunner_do_action_start_TestCase(scaffold.TestCase):
             ...
             """
         instance.do_action()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_emits_start_message_to_stderr(self):
         """ Should emit start message to stderr. """
@@ -536,7 +536,7 @@ class DaemonRunner_do_action_start_TestCase(scaffold.TestCase):
             started with pid %(current_pid)d
             """ % vars()
         instance.do_action()
-        self.failUnlessOutputCheckerMatch(
+        self.assertTrueOutputCheckerMatch(
             expect_stderr, self.mock_stderr.getvalue())
 
     def test_requests_app_run(self):
@@ -547,7 +547,7 @@ class DaemonRunner_do_action_start_TestCase(scaffold.TestCase):
             Called TestApp.run()
             """
         instance.do_action()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
@@ -589,7 +589,7 @@ class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
             raise self.failureException(
                 u"Failed to raise " + expect_error.__name__)
         scaffold.mock_restore()
-        self.failUnlessIn(str(exc), expect_message_content)
+        self.assertTrueIn(str(exc), expect_message_content)
 
     def test_breaks_lock_if_pidfile_stale(self):
         """ Should break lock if PID file is stale. """
@@ -606,7 +606,7 @@ class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
             """ % vars()
         instance.do_action()
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_sends_terminate_signal_to_process_from_pidfile(self):
         """ Should send SIGTERM to the daemon process. """
@@ -619,7 +619,7 @@ class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
             """ % vars()
         instance.do_action()
         scaffold.mock_restore()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_error_if_cannot_send_signal_to_process(self):
         """ Should raise error if cannot send signal to daemon process. """
@@ -639,7 +639,7 @@ class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
             raise self.failureException(
                 "Failed to raise " + expect_error.__name__)
         scaffold.mock_restore()
-        self.failUnlessIn(str(exc), expect_message_content)
+        self.assertTrueIn(str(exc), expect_message_content)
 
 
 class DaemonRunner_do_action_restart_TestCase(scaffold.TestCase):
@@ -670,4 +670,4 @@ class DaemonRunner_do_action_restart_TestCase(scaffold.TestCase):
             Called daemon.runner.DaemonRunner._start()
             """
         instance.do_action()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)

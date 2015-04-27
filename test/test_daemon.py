@@ -114,7 +114,7 @@ class DaemonContext_TestCase(scaffold.TestCase):
 
     def test_instantiate(self):
         """ New instance of DaemonContext should be created. """
-        self.failUnlessIsInstance(
+        self.assertTrueIsInstance(
             self.test_instance, daemon.daemon.DaemonContext)
 
     def test_minimum_zero_arguments(self):
@@ -390,7 +390,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             """ % vars()
         self.mock_tracker.clear()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_returns_immediately_if_is_open(self):
         """ Should return immediately if is_open property is true. """
@@ -400,7 +400,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             """
         self.mock_tracker.clear()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_root_directory_to_chroot_directory(self):
         """ Should change root directory to `chroot_directory` option. """
@@ -413,7 +413,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_omits_chroot_if_no_chroot_directory(self):
         """ Should omit changing root directory if no `chroot_directory`. """
@@ -432,7 +432,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_omits_prevent_core_dump_if_prevent_core_false(self):
         """ Should omit preventing core dumps if `prevent_core` is false. """
@@ -454,7 +454,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_directory_to_working_directory(self):
         """ Should change current directory to `working_directory` option. """
@@ -468,7 +468,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_creation_mask_to_umask(self):
         """ Should change file creation mask to `umask` option. """
@@ -481,7 +481,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_owner_to_specified_uid_and_gid(self):
         """ Should change process UID and GID to `uid` and `gid` options. """
@@ -496,7 +496,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_detaches_process_context(self):
         """ Should request detach of process context. """
@@ -507,7 +507,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_omits_process_detach_if_not_required(self):
         """ Should omit detach of process context if not required. """
@@ -530,7 +530,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_redirects_standard_streams(self):
         """ Should request redirection of standard stream files. """
@@ -551,7 +551,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_enters_pidfile_context(self):
         """ Should enter the PID file context manager. """
@@ -563,7 +563,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             ...
             """
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_sets_is_open_true(self):
         """ Should set the `is_open` property to True. """
@@ -580,7 +580,7 @@ class DaemonContext_open_TestCase(scaffold.TestCase):
             Called daemon.daemon.register_atexit_function(%(close_method)r)
             """ % vars()
         instance.open()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class DaemonContext_close_TestCase(scaffold.TestCase):
@@ -606,7 +606,7 @@ class DaemonContext_close_TestCase(scaffold.TestCase):
             """
         self.mock_tracker.clear()
         instance.close()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_exits_pidfile_context(self):
         """ Should exit the PID file context manager. """
@@ -616,14 +616,14 @@ class DaemonContext_close_TestCase(scaffold.TestCase):
             Called pidlockfile.PIDLockFile.__exit__(None, None, None)
             """
         instance.close()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_returns_none(self):
         """ Should return None. """
         instance = self.test_instance
         expect_result = None
         result = instance.close()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_sets_is_open_false(self):
         """ Should set the `is_open` property to False. """
@@ -655,14 +655,14 @@ class DaemonContext_context_manager_enter_TestCase(scaffold.TestCase):
             Called daemon.daemon.DaemonContext.open()
             """
         instance.__enter__()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_returns_self_instance(self):
         """ Should return DaemonContext instance. """
         instance = self.test_instance
         expect_result = instance
         result = instance.__enter__()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
 
 class DaemonContext_context_manager_exit_TestCase(scaffold.TestCase):
@@ -695,7 +695,7 @@ class DaemonContext_context_manager_exit_TestCase(scaffold.TestCase):
             Called daemon.daemon.DaemonContext.close()
             """
         instance.__exit__(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_returns_none(self):
         """ Should return None, indicating exception was not handled. """
@@ -703,7 +703,7 @@ class DaemonContext_context_manager_exit_TestCase(scaffold.TestCase):
         args = self.test_args
         expect_result = None
         result = instance.__exit__(**args)
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
 
 class DaemonContext_terminate_TestCase(scaffold.TestCase):
@@ -741,7 +741,7 @@ class DaemonContext_terminate_TestCase(scaffold.TestCase):
             instance.terminate(*args)
         except expect_exception as exc_:
             exc = exc_
-        self.failUnlessIn(str(exc), str(signal_number))
+        self.assertTrueIn(str(exc), str(signal_number))
 
 
 class DaemonContext_get_exclude_file_descriptors_TestCase(scaffold.TestCase):
@@ -929,7 +929,7 @@ class change_working_directory_TestCase(scaffold.TestCase):
             Called os.chdir(%(directory)r)
             """ % vars()
         daemon.daemon.change_working_directory(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_daemon_error_on_os_error(self):
         """ Should raise a DaemonError on receiving and OSError. """
@@ -952,7 +952,7 @@ class change_working_directory_TestCase(scaffold.TestCase):
             daemon.daemon.change_working_directory(**args)
         except expect_error as exc_:
             exc = exc_
-        self.failUnlessIn(str(exc), str(test_error))
+        self.assertTrueIn(str(exc), str(test_error))
 
 
 class change_root_directory_TestCase(scaffold.TestCase):
@@ -987,7 +987,7 @@ class change_root_directory_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         daemon.daemon.change_root_directory(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_root_directory_to_specified_directory(self):
         """ Should change root directory to specified directory. """
@@ -998,7 +998,7 @@ class change_root_directory_TestCase(scaffold.TestCase):
             Called os.chroot(%(directory)r)
             """ % vars()
         daemon.daemon.change_root_directory(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_daemon_error_on_os_error_from_chdir(self):
         """ Should raise a DaemonError on receiving an OSError from chdir. """
@@ -1031,7 +1031,7 @@ class change_root_directory_TestCase(scaffold.TestCase):
             daemon.daemon.change_root_directory(**args)
         except expect_error as exc_:
             exc = exc_
-        self.failUnlessIn(str(exc), str(test_error))
+        self.assertTrueIn(str(exc), str(test_error))
 
 
 class change_file_creation_mask_TestCase(scaffold.TestCase):
@@ -1062,7 +1062,7 @@ class change_file_creation_mask_TestCase(scaffold.TestCase):
             Called os.umask(%(mask)r)
             """ % vars()
         daemon.daemon.change_file_creation_mask(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_daemon_error_on_os_error_from_chdir(self):
         """ Should raise a DaemonError on receiving an OSError from umask. """
@@ -1085,7 +1085,7 @@ class change_file_creation_mask_TestCase(scaffold.TestCase):
             daemon.daemon.change_file_creation_mask(**args)
         except expect_error as exc_:
             exc = exc_
-        self.failUnlessIn(str(exc), str(test_error))
+        self.assertTrueIn(str(exc), str(test_error))
 
 
 class change_process_owner_TestCase(scaffold.TestCase):
@@ -1127,7 +1127,7 @@ class change_process_owner_TestCase(scaffold.TestCase):
             Called os.setuid(...)
             """ % vars()
         daemon.daemon.change_process_owner(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_group_id_to_gid(self):
         """ Should change process GID to specified value. """
@@ -1138,7 +1138,7 @@ class change_process_owner_TestCase(scaffold.TestCase):
             ...
             """ % vars()
         daemon.daemon.change_process_owner(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_changes_user_id_to_uid(self):
         """ Should change process UID to specified value. """
@@ -1149,7 +1149,7 @@ class change_process_owner_TestCase(scaffold.TestCase):
             Called os.setuid(%(uid)r)
             """ % vars()
         daemon.daemon.change_process_owner(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_daemon_error_on_os_error_from_setgid(self):
         """ Should raise a DaemonError on receiving an OSError from setgid. """
@@ -1182,7 +1182,7 @@ class change_process_owner_TestCase(scaffold.TestCase):
             daemon.daemon.change_process_owner(**args)
         except expect_error as exc_:
             exc = exc_
-        self.failUnlessIn(str(exc), str(test_error))
+        self.assertTrueIn(str(exc), str(test_error))
 
 
 class prevent_core_dump_TestCase(scaffold.TestCase):
@@ -1219,7 +1219,7 @@ class prevent_core_dump_TestCase(scaffold.TestCase):
                 %(expect_limit)r)
             """ % vars()
         daemon.daemon.prevent_core_dump()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_error_when_no_core_resource(self):
         """ Should raise DaemonError if no RLIMIT_CORE resource. """
@@ -1259,7 +1259,7 @@ class close_file_descriptor_if_open_TestCase(scaffold.TestCase):
             Called os.close(%(fd)r)
             """ % vars()
         daemon.daemon.close_file_descriptor_if_open(fd)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_ignores_badfd_error_on_close(self):
         """ Should ignore OSError EBADF when closing. """
@@ -1272,7 +1272,7 @@ class close_file_descriptor_if_open_TestCase(scaffold.TestCase):
             Called os.close(%(fd)r)
             """ % vars()
         daemon.daemon.close_file_descriptor_if_open(fd)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_raises_error_if_error_on_close(self):
         """ Should raise DaemonError if an OSError occurs when closing. """
@@ -1293,7 +1293,7 @@ class maxfd_TestCase(scaffold.TestCase):
     def test_positive(self):
         """ Should be a positive number. """
         maxfd = daemon.daemon.MAXFD
-        self.failUnless(maxfd > 0)
+        self.assertTrue(maxfd > 0)
 
     def test_integer(self):
         """ Should be an integer. """
@@ -1311,7 +1311,7 @@ class maxfd_TestCase(scaffold.TestCase):
             """
         expect_minimum = 2048
         maxfd = daemon.daemon.MAXFD
-        self.failUnless(
+        self.assertTrue(
             expect_minimum <= maxfd,
             msg=u"MAXFD should be at least %(expect_minimum)r (got %(maxfd)r)"
                 % vars())
@@ -1416,7 +1416,7 @@ class close_all_open_files_TestCase(scaffold.TestCase):
                 % vars()
             for fd in expect_file_descriptors)
         daemon.daemon.close_all_open_files()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_requests_all_but_excluded_files_to_close(self):
         """ Should request close of all open files but those excluded. """
@@ -1432,7 +1432,7 @@ class close_all_open_files_TestCase(scaffold.TestCase):
                 % vars()
             for fd in expect_file_descriptors)
         daemon.daemon.close_all_open_files(**args)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class detach_process_context_TestCase(scaffold.TestCase):
@@ -1476,7 +1476,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         self.assertRaises(
             self.FakeOSExit,
             daemon.daemon.detach_process_context)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_first_fork_error_raises_error(self):
         """ Error on first fork should raise DaemonProcessDetachError. """
@@ -1502,7 +1502,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         self.assertRaises(
             daemon.daemon.DaemonProcessDetachError,
             daemon.daemon.detach_process_context)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_child_starts_new_process_group(self):
         """ Child should start new process group. """
@@ -1512,7 +1512,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
             ...
             """
         daemon.daemon.detach_process_context()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_child_forks_next_parent_exits(self):
         """ Child should fork, then exit if parent. """
@@ -1530,7 +1530,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         self.assertRaises(
             self.FakeOSExit,
             daemon.daemon.detach_process_context)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_second_fork_error_reports_to_stderr(self):
         """ Error on second fork should cause report to stderr. """
@@ -1558,7 +1558,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         self.assertRaises(
             daemon.daemon.DaemonProcessDetachError,
             daemon.daemon.detach_process_context)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_child_forks_next_child_continues(self):
         """ Child should fork, then continue if child. """
@@ -1568,7 +1568,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
             Called os.fork()
             """ % vars()
         daemon.daemon.detach_process_context()
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class is_process_started_by_init_TestCase(scaffold.TestCase):
@@ -1593,7 +1593,7 @@ class is_process_started_by_init_TestCase(scaffold.TestCase):
         """ Should return False under normal circumstances. """
         expect_result = False
         result = daemon.daemon.is_process_started_by_init()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_returns_true_if_parent_process_is_init(self):
         """ Should return True if parent process is `init`. """
@@ -1601,7 +1601,7 @@ class is_process_started_by_init_TestCase(scaffold.TestCase):
         os.getppid.mock_returns = init_pid
         expect_result = True
         result = daemon.daemon.is_process_started_by_init()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
 
 class is_socket_TestCase(scaffold.TestCase):
@@ -1645,7 +1645,7 @@ class is_socket_TestCase(scaffold.TestCase):
         test_fd = 23
         expect_result = False
         result = daemon.daemon.is_socket(test_fd)
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_returns_true_if_stdin_is_socket(self):
         """ Should return True if `stdin` is a socket. """
@@ -1655,7 +1655,7 @@ class is_socket_TestCase(scaffold.TestCase):
         getsockopt.mock_returns_func = self.mock_socket_getsockopt_func
         expect_result = True
         result = daemon.daemon.is_socket(test_fd)
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_returns_false_if_stdin_socket_raises_error(self):
         """ Should return True if `stdin` is a socket and raises error. """
@@ -1665,7 +1665,7 @@ class is_socket_TestCase(scaffold.TestCase):
             object(), u"Weird socket stuff")
         expect_result = True
         result = daemon.daemon.is_socket(test_fd)
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
 
 class is_process_started_by_superserver_TestCase(scaffold.TestCase):
@@ -1697,14 +1697,14 @@ class is_process_started_by_superserver_TestCase(scaffold.TestCase):
         """ Should return False under normal circumstances. """
         expect_result = False
         result = daemon.daemon.is_process_started_by_superserver()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_returns_true_if_stdin_is_socket(self):
         """ Should return True if `stdin` is a socket. """
         self.mock_stdin_is_socket_func = (lambda: True)
         expect_result = True
         result = daemon.daemon.is_process_started_by_superserver()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
 
 class is_detach_process_context_required_TestCase(scaffold.TestCase):
@@ -1729,21 +1729,21 @@ class is_detach_process_context_required_TestCase(scaffold.TestCase):
         """ Should return False under normal circumstances. """
         expect_result = True
         result = daemon.daemon.is_detach_process_context_required()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_returns_false_if_started_by_init(self):
         """ Should return False if current process started by init. """
         daemon.daemon.is_process_started_by_init.mock_returns = True
         expect_result = False
         result = daemon.daemon.is_detach_process_context_required()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
     def test_returns_true_if_started_by_superserver(self):
         """ Should return False if current process started by superserver. """
         daemon.daemon.is_process_started_by_superserver.mock_returns = True
         expect_result = False
         result = daemon.daemon.is_detach_process_context_required()
-        self.failUnlessIs(expect_result, result)
+        self.assertTrueIs(expect_result, result)
 
 
 def setup_streams_fixtures(testcase):
@@ -1809,7 +1809,7 @@ class redirect_stream_TestCase(scaffold.TestCase):
             Called os.dup2(%(target_fileno)r, %(system_fileno)r)
             """ % vars()
         daemon.daemon.redirect_stream(system_stream, target_stream)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
     def test_duplicates_null_file_descriptor_by_default(self):
         """ Should by default duplicate the null file to the system stream. """
@@ -1825,7 +1825,7 @@ class redirect_stream_TestCase(scaffold.TestCase):
             Called os.dup2(%(null_fileno)r, %(system_fileno)r)
             """ % vars()
         daemon.daemon.redirect_stream(system_stream, target_stream)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class make_default_signal_map_TestCase(scaffold.TestCase):
@@ -1923,7 +1923,7 @@ class set_signal_handlers_TestCase(scaffold.TestCase):
                 % vars()
             for (signal_number, handler) in signal_handler_map.items())
         daemon.daemon.set_signal_handlers(signal_handler_map)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
 
 
 class register_atexit_function_TestCase(scaffold.TestCase):
@@ -1948,4 +1948,4 @@ class register_atexit_function_TestCase(scaffold.TestCase):
             Called atexit.register(%(func)r)
             """ % vars()
         daemon.daemon.register_atexit_function(func)
-        self.failUnlessMockCheckerMatch(expect_mock_output)
+        self.assertTrueMockCheckerMatch(expect_mock_output)
