@@ -134,7 +134,7 @@ class TestCase(unittest.TestCase):
 
             """
         try:
-            super(TestCase, self).failUnlessRaises(
+            super(TestCase, self).assertRaises(
                 exc_class, func, *args, **kwargs)
         except self.failureException:
             exc_class_name = exc_class.__name__
