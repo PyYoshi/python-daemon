@@ -13,7 +13,10 @@
 """ Unit test for runner module.
     """
 
-import __builtin__ as builtins
+try:
+    import __builtin__ as builtins
+except ImportError:
+    import builtins
 import os
 import sys
 import tempfile
@@ -271,14 +274,14 @@ class DaemonRunner_TestCase(scaffold.TestCase):
             """ % vars()
         scaffold.mock_restore()
         self.failUnlessMockCheckerMatch(expect_mock_output)
- 
+
     def test_has_created_pidfile(self):
         """ Should have new PID lock file as `pidfile` attribute. """
         expect_pidfile = self.mock_runner_lock
         instance = self.test_instance
         self.failUnlessIs(
             expect_pidfile, instance.pidfile)
- 
+
     def test_daemon_context_has_created_pidfile(self):
         """ DaemonContext component should have new PID lock file. """
         expect_pidfile = self.mock_runner_lock
@@ -478,14 +481,19 @@ class DaemonRunner_do_action_start_TestCase(scaffold.TestCase):
         pidfile_path = self.scenario['pidfile_path']
         expect_error = runner.DaemonRunnerStartFailureError
         expect_message_content = pidfile_path
+        exc = None
         try:
             instance.do_action()
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         else:
             raise self.failureException(
                 u"Failed to raise " + expect_error.__name__)
-        self.failUnlessIn(unicode(exc.message), expect_message_content)
+        try:
+            message = exc.message
+        except AttributeError:
+            message = exc.args[0]
+        self.failUnlessIn(str(message), expect_message_content)
 
     def test_breaks_lock_if_no_such_process(self):
         """ Should request breaking lock if PID file process is not running. """
@@ -572,10 +580,11 @@ class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
         pidfile_path = self.scenario['pidfile_path']
         expect_error = runner.DaemonRunnerStopFailureError
         expect_message_content = pidfile_path
+        exc = None
         try:
             instance.do_action()
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         else:
             raise self.failureException(
                 u"Failed to raise " + expect_error.__name__)
@@ -617,19 +626,20 @@ class DaemonRunner_do_action_stop_TestCase(scaffold.TestCase):
         instance = self.test_instance
         test_pid = self.scenario['pidlockfile_scenario']['pidfile_pid']
         pidfile_path = self.scenario['pidfile_path']
-        error = OSError(errno.EPERM, u"Nice try")
+        error = OSError(errno.EPERM, "Nice try")
         os.kill.mock_raises = error
         expect_error = runner.DaemonRunnerStopFailureError
         expect_message_content = str(test_pid)
+        exc = None
         try:
             instance.do_action()
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         else:
             raise self.failureException(
-                u"Failed to raise " + expect_error.__name__)
+                "Failed to raise " + expect_error.__name__)
         scaffold.mock_restore()
-        self.failUnlessIn(unicode(exc), expect_message_content)
+        self.failUnlessIn(str(exc), expect_message_content)
 
 
 class DaemonRunner_do_action_restart_TestCase(scaffold.TestCase):

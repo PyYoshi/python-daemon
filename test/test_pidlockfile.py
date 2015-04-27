@@ -13,9 +13,15 @@
 """ Unit test for pidlockfile module.
     """
 
-import __builtin__ as builtins
+try:
+    import __builtin__ as builtins
+except ImportError:
+    import builtins
 import os
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import itertools
 import tempfile
 import errno
@@ -32,7 +38,7 @@ class FakeFileDescriptorStringIO(StringIO, object):
     _fileno_generator = itertools.count()
 
     def __init__(self, *args, **kwargs):
-        self._fileno = self._fileno_generator.next()
+        self._fileno = next(self._fileno_generator)
         super_instance = super(FakeFileDescriptorStringIO, self)
         super_instance.__init__(*args, **kwargs)
 
@@ -666,7 +672,7 @@ class write_pid_to_pidfile_TestCase(scaffold.TestCase):
         """ Should attempt to open specified PID file filename. """
         pidfile_path = self.scenario['path']
         expect_flags = (os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-        expect_mode = 0644
+        expect_mode = 0o644
         expect_mock_output = u"""\
             Called os.open(%(pidfile_path)r, %(expect_flags)r, %(expect_mode)r)
             ...
@@ -748,7 +754,7 @@ class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
         def test_func(self, path, acquire_timeout=None, *args, **kwargs): pass
         test_func.__name__ = '__init__'
         self.failUnlessFunctionSignatureMatch(
-            test_func, 
+            test_func,
             pidlockfile.TimeoutPIDLockFile.__init__)
 
     def test_has_specified_acquire_timeout(self):

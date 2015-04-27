@@ -22,7 +22,10 @@ import signal
 import socket
 from types import ModuleType
 import atexit
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 import scaffold
 from test_pidlockfile import (
@@ -733,10 +736,11 @@ class DaemonContext_terminate_TestCase(scaffold.TestCase):
         args = self.test_args
         signal_number = self.test_signal
         expect_exception = SystemExit
+        exc = None
         try:
             instance.terminate(*args)
-        except expect_exception, exc:
-            pass
+        except expect_exception as exc_:
+            exc = exc_
         self.failUnlessIn(str(exc), str(signal_number))
 
 
@@ -774,10 +778,10 @@ class DaemonContext_get_exclude_file_descriptors_TestCase(scaffold.TestCase):
     def test_returns_expected_file_descriptors(self):
         """ Should return expected set of file descriptors. """
         instance = self.test_instance
-        instance.files_preserve = self.test_files.values()
+        instance.files_preserve = list(self.test_files.values())
         expect_result = self.test_file_descriptors
         result = instance._get_exclude_file_descriptors()
-        self.failUnlessEqual(expect_result, result)
+        self.assertEqual(expect_result, result)
 
     def test_returns_stream_redirects_if_no_files_preserve(self):
         """ Should return only stream redirects if no files_preserve. """
@@ -801,16 +805,16 @@ class DaemonContext_get_exclude_file_descriptors_TestCase(scaffold.TestCase):
     def test_return_set_omits_streams_without_file_descriptors(self):
         """ Should omit any stream without a file descriptor. """
         instance = self.test_instance
-        instance.files_preserve = self.test_files.values()
+        instance.files_preserve = list(self.test_files.values())
         stream_files = self.stream_files_by_name
-        stream_names = stream_files.keys()
+        stream_names = list(stream_files.keys())
         expect_result = self.test_file_descriptors.copy()
-        for (pseudo_stream_name, pseudo_stream) in stream_files.items():
+        for (pseudo_stream_name, pseudo_stream) in list(stream_files.items()):
             setattr(instance, pseudo_stream_name, StringIO())
             stream_fd = pseudo_stream.fileno()
             expect_result.discard(stream_fd)
         result = instance._get_exclude_file_descriptors()
-        self.failUnlessEqual(expect_result, result)
+        self.assertEqual(expect_result, result)
 
 
 class DaemonContext_make_signal_handler_TestCase(scaffold.TestCase):
@@ -943,10 +947,11 @@ class change_working_directory_TestCase(scaffold.TestCase):
         test_error = OSError(errno.ENOENT, u"No such directory")
         os.chdir.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
+        exc = None
         try:
             daemon.daemon.change_working_directory(**args)
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         self.failUnlessIn(str(exc), str(test_error))
 
 
@@ -1021,10 +1026,11 @@ class change_root_directory_TestCase(scaffold.TestCase):
         test_error = OSError(errno.ENOENT, u"No such directory")
         os.chdir.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
+        exc = None
         try:
             daemon.daemon.change_root_directory(**args)
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         self.failUnlessIn(str(exc), str(test_error))
 
 
@@ -1074,10 +1080,11 @@ class change_file_creation_mask_TestCase(scaffold.TestCase):
         test_error = OSError(errno.ENOENT, u"No such directory")
         os.umask.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
+        exc = None
         try:
             daemon.daemon.change_file_creation_mask(**args)
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         self.failUnlessIn(str(exc), str(test_error))
 
 
@@ -1170,10 +1177,11 @@ class change_process_owner_TestCase(scaffold.TestCase):
         test_error = OSError(errno.EINVAL, u"Whatchoo talkin' 'bout?")
         os.setuid.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
+        exc = None
         try:
             daemon.daemon.change_process_owner(**args)
-        except expect_error, exc:
-            pass
+        except expect_error as exc_:
+            exc = exc_
         self.failUnlessIn(str(exc), str(test_error))
 
 
@@ -1478,7 +1486,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         test_pids_iter = iter([fork_error])
 
         def mock_fork():
-            next_item = test_pids_iter.next()
+            next_item = next(test_pids_iter)
             if isinstance(next_item, Exception):
                 raise next_item
             else:
@@ -1532,7 +1540,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         test_pids_iter = iter([0, fork_error])
 
         def mock_fork():
-            next_item = test_pids_iter.next()
+            next_item = next(test_pids_iter)
             if isinstance(next_item, Exception):
                 raise next_item
             else:
