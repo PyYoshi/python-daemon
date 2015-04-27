@@ -26,6 +26,19 @@ import signal
 import socket
 import atexit
 
+def _has_fileno(file_descriptor):
+    """ Test if the file descriptor has a fileno.
+        On Python 2.x, just checking for the attribute would solve the problem
+        when using `io.StringIO`. Now the function must be called so it will
+        raise `io.UnsuportedOperation` (Subclass of `ValueError`).
+        :return: bool
+    """
+    try:
+        file_descriptor.fileno()
+    except (AttributeError, ValueError):
+        return False
+    return True
+
 class DaemonError(Exception):
     """ Base exception class for errors from this module. """
 
@@ -418,12 +431,12 @@ class DaemonContext(object):
             files_preserve = []
         files_preserve.extend(
             item for item in [self.stdin, self.stdout, self.stderr]
-            if hasattr(item, 'fileno'))
+            if _has_fileno(item))
         exclude_descriptors = set()
         for item in files_preserve:
             if item is None:
                 continue
-            if hasattr(item, 'fileno'):
+            if _has_fileno(item):
                 exclude_descriptors.add(item.fileno())
             else:
                 exclude_descriptors.add(item)
@@ -556,7 +569,7 @@ def detach_process_context():
         Reference: “Advanced Programming in the Unix Environment”,
         section 13.3, by W. Richard Stevens, published 1993 by
         Addison-Wesley.
-    
+
         """
 
     def fork_then_exit_parent(error_message):
@@ -587,7 +600,7 @@ def is_process_started_by_init():
 
         The `init` process has the process ID of 1; if that is our
         parent process ID, return ``True``, otherwise ``False``.
-    
+
         """
     result = False
 
@@ -634,7 +647,7 @@ def is_process_started_by_superserver():
         attaches it to the standard streams of the child process. If
         that is the case for this process, return ``True``, otherwise
         ``False``.
-    
+
         """
     result = False
 
