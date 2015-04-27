@@ -1,0 +1,13 @@
+sudo: false
+
+python:
+    - 2.7
+    - 3.3
+    - 3.4
+
+branches:
+    only:
+        - own
+
+script:
+    - python setup.py test
