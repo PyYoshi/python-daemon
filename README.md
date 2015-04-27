@@ -1,4 +1,4 @@
-python-daemon 1.5.7
+python-daemon 1.5.8
 ===================
 
 [![Build Status](https://travis-ci.org/PyYoshi/python-daemon.svg)](https://travis-ci.org/PyYoshi/python-daemon)
