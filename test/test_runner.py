@@ -248,7 +248,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         pidfile_path = object()
         self.test_app.pidfile_path = pidfile_path
         expect_error = ValueError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             runner.DaemonRunner, self.test_app)
 
@@ -257,7 +257,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         pidfile_path = u"foo/bar.pid"
         self.test_app.pidfile_path = pidfile_path
         expect_error = ValueError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             runner.DaemonRunner, self.test_app)
 
@@ -352,7 +352,7 @@ class DaemonRunner_usage_exit_TestCase(scaffold.TestCase):
         """ Should raise SystemExit exception. """
         instance = self.test_instance
         argv = [self.test_program_path]
-        self.failUnlessRaises(
+        self.assertRaises(
             SystemExit,
             instance._usage_exit, argv)
 
@@ -364,7 +364,7 @@ class DaemonRunner_usage_exit_TestCase(scaffold.TestCase):
         expect_stderr_output = u"""\
             usage: %(progname)s ...
             """ % vars()
-        self.failUnlessRaises(
+        self.assertRaises(
             SystemExit,
             instance._usage_exit, argv)
         self.failUnlessOutputCheckerMatch(
@@ -453,7 +453,7 @@ class DaemonRunner_do_action_TestCase(scaffold.TestCase):
         instance = self.test_instance
         instance.action = u'bogus'
         expect_error = runner.DaemonRunnerInvalidActionError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             instance.do_action)
 

@@ -435,7 +435,7 @@ class PIDLockFile_acquire_TestCase(scaffold.TestCase):
         mock_error = OSError(errno.EBUSY, u"Bad stuff", pidfile_path)
         pidlockfile.write_pid_to_pidfile.mock_raises = mock_error
         expect_error = pidlockfile.LockFailed
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             instance.acquire)
 
@@ -460,7 +460,7 @@ class PIDLockFile_release_TestCase(scaffold.TestCase):
             u"..."
             u"Called pidlockfile.remove_existing_pidfile"
             u"...")
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             instance.release)
         self.failIfMockCheckerMatch(unwanted_mock_output)
@@ -474,7 +474,7 @@ class PIDLockFile_release_TestCase(scaffold.TestCase):
             u"..."
             u"Called pidlockfile.remove_existing_pidfile"
             u"...")
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             instance.release)
         self.failIfMockCheckerMatch(unwanted_mock_output)
@@ -582,7 +582,7 @@ class read_pid_from_pidfile_TestCase(scaffold.TestCase):
         set_pidlockfile_scenario(self, 'exist-read-denied')
         pidfile_path = self.scenario['path']
         expect_error = EnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             pidlockfile.read_pid_from_pidfile, pidfile_path)
 
@@ -591,7 +591,7 @@ class read_pid_from_pidfile_TestCase(scaffold.TestCase):
         set_pidlockfile_scenario(self, 'exist-empty')
         pidfile_path = self.scenario['path']
         expect_error = pidlockfile.PIDFileParseError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             pidlockfile.read_pid_from_pidfile, pidfile_path)
 
@@ -600,7 +600,7 @@ class read_pid_from_pidfile_TestCase(scaffold.TestCase):
         set_pidlockfile_scenario(self, 'exist-invalid')
         pidfile_path = self.scenario['path']
         expect_error = pidlockfile.PIDFileParseError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             pidlockfile.read_pid_from_pidfile, pidfile_path)
 
@@ -650,7 +650,7 @@ class remove_existing_pidfile_TestCase(scaffold.TestCase):
         pidfile_path = self.scenario['path']
         mock_error = OSError(errno.EACCES, u"Denied", pidfile_path)
         os.remove.mock_raises = mock_error
-        self.failUnlessRaises(
+        self.assertRaises(
             type(mock_error),
             pidlockfile.remove_existing_pidfile,
             pidfile_path)
