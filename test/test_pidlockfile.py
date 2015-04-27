@@ -359,7 +359,7 @@ class PIDLockFile_TestCase(scaffold.TestCase):
         """ Should have specified path. """
         instance = self.test_instance
         expect_path = self.scenario['path']
-        self.failUnlessEqual(expect_path, instance.path)
+        self.assertEqual(expect_path, instance.path)
 
 
 class PIDLockFile_read_pid_TestCase(scaffold.TestCase):
@@ -379,7 +379,7 @@ class PIDLockFile_read_pid_TestCase(scaffold.TestCase):
         test_pid = self.scenario['pidfile_pid']
         expect_pid = test_pid
         result = instance.read_pid()
-        self.failUnlessEqual(expect_pid, result)
+        self.assertEqual(expect_pid, result)
 
 
 class PIDLockFile_acquire_TestCase(scaffold.TestCase):
@@ -567,7 +567,7 @@ class read_pid_from_pidfile_TestCase(scaffold.TestCase):
         expect_pid = self.scenario['pidfile_pid']
         pid = pidlockfile.read_pid_from_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessEqual(expect_pid, pid)
+        self.assertEqual(expect_pid, pid)
 
     def test_returns_none_when_file_nonexist(self):
         """ Should return None when the PID file does not exist. """
@@ -690,7 +690,7 @@ class write_pid_to_pidfile_TestCase(scaffold.TestCase):
         expect_line = u"%(pid)d\n" % self.scenario
         pidlockfile.write_pid_to_pidfile(pidfile_path)
         scaffold.mock_restore()
-        self.failUnlessEqual(expect_line, self.scenario['pidfile'].getvalue())
+        self.assertEqual(expect_line, self.scenario['pidfile'].getvalue())
 
     def test_closes_file_after_write(self):
         """ Should close the specified file after writing. """
@@ -761,7 +761,7 @@ class TimeoutPIDLockFile_TestCase(scaffold.TestCase):
         """ Should have specified ‘acquire_timeout’ value. """
         instance = self.test_instance
         expect_timeout = self.test_kwargs['acquire_timeout']
-        self.failUnlessEqual(expect_timeout, instance.acquire_timeout)
+        self.assertEqual(expect_timeout, instance.acquire_timeout)
 
     def test_calls_superclass_init(self):
         """ Should call the superclass ‘__init__’. """

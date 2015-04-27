@@ -294,7 +294,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         test_app = self.test_app
         expect_file = self.stream_files_by_name['stdin']
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessEqual(expect_file, daemon_context.stdin)
+        self.assertEqual(expect_file, daemon_context.stdin)
 
     def test_daemon_context_has_stdin_in_read_mode(self):
         """ DaemonContext component should open stdin file for read. """
@@ -307,7 +307,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         test_app = self.test_app
         expect_file = self.stream_files_by_name['stdout']
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessEqual(expect_file, daemon_context.stdout)
+        self.assertEqual(expect_file, daemon_context.stdout)
 
     def test_daemon_context_has_stdout_in_append_mode(self):
         """ DaemonContext component should open stdout file for append. """
@@ -320,7 +320,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         test_app = self.test_app
         expect_file = self.stream_files_by_name['stderr']
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessEqual(expect_file, daemon_context.stderr)
+        self.assertEqual(expect_file, daemon_context.stderr)
 
     def test_daemon_context_has_stderr_in_append_mode(self):
         """ DaemonContext component should open stderr file for append. """
@@ -332,7 +332,7 @@ class DaemonRunner_TestCase(scaffold.TestCase):
         """ DaemonContext component should open stderr file unbuffered. """
         expect_buffering = 0
         daemon_context = self.test_instance.daemon_context
-        self.failUnlessEqual(
+        self.assertEqual(
             expect_buffering, daemon_context.stderr.buffering)
 
 
@@ -425,7 +425,7 @@ class DaemonRunner_parse_args_TestCase(scaffold.TestCase):
             mock_obj=argv,
             tracker=self.mock_tracker)
         instance.parse_args()
-        self.failUnlessEqual(expect_action, instance.action)
+        self.assertEqual(expect_action, instance.action)
 
     def test_sets_action_from_first_argument(self):
         """ Should set action from first commandline argument. """
@@ -433,7 +433,7 @@ class DaemonRunner_parse_args_TestCase(scaffold.TestCase):
         for name, argv in self.valid_argv_params.items():
             expect_action = name
             instance.parse_args(argv)
-            self.failUnlessEqual(expect_action, instance.action)
+            self.assertEqual(expect_action, instance.action)
 
 
 class DaemonRunner_do_action_TestCase(scaffold.TestCase):
