@@ -125,7 +125,7 @@ def format_function_signature(func):
 class TestCase(unittest.TestCase):
     """ Test case behaviour. """
 
-    def failUnlessRaises(self, exc_class, func, *args, **kwargs):
+    def assertRaises(self, exc_class, func, *args, **kwargs):
         """ Fail unless the function call raises the expected exception.
 
             Fail the test if an instance of the exception class

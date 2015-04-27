@@ -293,7 +293,7 @@ class DaemonContext_is_open_TestCase(scaffold.TestCase):
     def test_write_fails(self):
         """ Writing to is_open should fail. """
         instance = self.test_instance
-        self.failUnlessRaises(
+        self.assertRaises(
             AttributeError,
             setattr, instance, 'is_open', object())
 
@@ -726,7 +726,7 @@ class DaemonContext_terminate_TestCase(scaffold.TestCase):
         instance = self.test_instance
         args = self.test_args
         expect_exception = SystemExit
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_exception,
             instance.terminate, *args)
 
@@ -849,7 +849,7 @@ class DaemonContext_make_signal_handler_TestCase(scaffold.TestCase):
         instance = self.test_instance
         target = 'b0gUs'
         expect_error = AttributeError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             instance._make_signal_handler, target)
 
@@ -937,7 +937,7 @@ class change_working_directory_TestCase(scaffold.TestCase):
         test_error = OSError(errno.ENOENT, u"No such directory")
         os.chdir.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.change_working_directory, **args)
 
@@ -1006,7 +1006,7 @@ class change_root_directory_TestCase(scaffold.TestCase):
         test_error = OSError(errno.ENOENT, u"No such directory")
         os.chdir.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.change_root_directory, **args)
 
@@ -1016,7 +1016,7 @@ class change_root_directory_TestCase(scaffold.TestCase):
         test_error = OSError(errno.EPERM, u"No chroot for you!")
         os.chroot.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.change_root_directory, **args)
 
@@ -1070,7 +1070,7 @@ class change_file_creation_mask_TestCase(scaffold.TestCase):
         test_error = OSError(errno.EINVAL, u"Whatchoo talkin' 'bout?")
         os.umask.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.change_file_creation_mask, **args)
 
@@ -1157,7 +1157,7 @@ class change_process_owner_TestCase(scaffold.TestCase):
         test_error = OSError(errno.EPERM, u"No switching for you!")
         os.setgid.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.change_process_owner, **args)
 
@@ -1167,7 +1167,7 @@ class change_process_owner_TestCase(scaffold.TestCase):
         test_error = OSError(errno.EPERM, u"No switching for you!")
         os.setuid.mock_raises = test_error
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.change_process_owner, **args)
 
@@ -1230,7 +1230,7 @@ class prevent_core_dump_TestCase(scaffold.TestCase):
                 return None
         resource.getrlimit.mock_returns_func = mock_getrlimit
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.prevent_core_dump)
 
@@ -1282,7 +1282,7 @@ class close_file_descriptor_if_open_TestCase(scaffold.TestCase):
             raise test_error
         os.close.mock_returns_func = os_close
         expect_error = daemon.daemon.DaemonOSEnvironmentError
-        self.failUnlessRaises(
+        self.assertRaises(
             expect_error,
             daemon.daemon.close_file_descriptor_if_open, fd)
 
@@ -1473,7 +1473,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
             Called os.fork()
             Called os._exit(0)
             """
-        self.failUnlessRaises(
+        self.assertRaises(
             self.FakeOSExit,
             daemon.daemon.detach_process_context)
         self.failUnlessMockCheckerMatch(expect_mock_output)
@@ -1499,7 +1499,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
         expect_mock_output = u"""\
             Called os.fork()
             """
-        self.failUnlessRaises(
+        self.assertRaises(
             daemon.daemon.DaemonProcessDetachError,
             daemon.daemon.detach_process_context)
         self.failUnlessMockCheckerMatch(expect_mock_output)
@@ -1527,7 +1527,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
             Called os.fork()
             Called os._exit(0)
             """
-        self.failUnlessRaises(
+        self.assertRaises(
             self.FakeOSExit,
             daemon.daemon.detach_process_context)
         self.failUnlessMockCheckerMatch(expect_mock_output)
@@ -1555,7 +1555,7 @@ class detach_process_context_TestCase(scaffold.TestCase):
             Called os.setsid()
             Called os.fork()
             """
-        self.failUnlessRaises(
+        self.assertRaises(
             daemon.daemon.DaemonProcessDetachError,
             daemon.daemon.detach_process_context)
         self.failUnlessMockCheckerMatch(expect_mock_output)
